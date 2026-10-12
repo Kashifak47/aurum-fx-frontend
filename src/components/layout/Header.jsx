@@ -28,9 +28,9 @@ import React, { useState } from 'react';import {
   LogOut
 } from 'lucide-react';
 
-const Header = ({ onMenuClick }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isNotifOpen, setIsNotifOpen] = useState(false);
+const Header = ({ onMenuClick, onSignOut }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const [isNotifOpen, setIsNotifOpen] = React.useState(false);
 
   const notifications = [
     { id: 1, title: 'Trade Executed', time: '2 mins ago', desc: 'Buy 1.00 EUR/USD at 1.1025', unread: true },
@@ -62,11 +62,13 @@ const Header = ({ onMenuClick }) => {
             <span className="absolute top-0 right-0 w-2 h-2 bg-[#EF4444] rounded-full border border-[#070B14]"></span>
           </button>
 
-          {}
+          {/* Dropdown Menu */}
           {isNotifOpen && (
             <>
+              {/* Invisible overlay to catch outside clicks */}
               <div className="fixed inset-0 z-40" onClick={() => setIsNotifOpen(false)}></div>
               
+              {/* Dropdown panel */}
               <div className="absolute right-0 mt-3 w-[260px] sm:w-80 bg-[#0B1221] border border-[#1E293B] rounded-xl shadow-2xl py-1.5 sm:py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 border-b border-[#1E293B] mb-1">
                   <p className="text-xs sm:text-sm font-semibold text-white">Notifications</p>
@@ -135,7 +137,7 @@ const Header = ({ onMenuClick }) => {
                   <Settings size={16} /> Account Settings
                 </button>
                 <div className="px-3 py-2">
-                  <button className="w-full text-left px-4 py-2.5 text-sm text-[#EF4444] hover:bg-[#EF4444]/10 rounded-lg flex items-center gap-3 transition-colors">
+                  <button onClick={onSignOut} className="w-full text-left px-4 py-2.5 text-sm text-[#EF4444] hover:bg-[#EF4444]/10 rounded-lg flex items-center gap-3 transition-colors">
                     <LogOut size={16} /> Sign Out
                   </button>
                 </div>
@@ -147,6 +149,7 @@ const Header = ({ onMenuClick }) => {
     </header>
   );
 };
+
 
 
 

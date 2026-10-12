@@ -12,13 +12,14 @@ import EquityCurve from './components/dashboard/EquityCurve.jsx'
 import CurrencyAllocation from './components/dashboard/CurrencyAllocation.jsx'
 import BottomWarning from './components/dashboard/BottomWarning.jsx'
 import Modal from './components/common/Modal.jsx'
+import LandingPage from './components/landing/LandingPage.jsx'
 import {
   Briefcase,
   ArrowDownRight,
   Wallet
 } from 'lucide-react';
 
-export default function App() {
+const Dashboard = ({ onSignOut }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('Overview');
   const [timeframe, setTimeframe] = useState('1M');
@@ -31,18 +32,14 @@ export default function App() {
   const [equityData] = useState(mockEquityData);
   const [allocationData] = useState(mockAllocationData);
   
-  // Added dynamic state for balances and table
   const [activityData, setActivityData] = useState(mockRecentActivity);
   const [balance, setBalance] = useState(24850.00);
   
-  // Live Trading State 
   const [tradingData, setTradingData] = useState(mockLiveTrading);
 
-  // Timeframe filtering logic
   const getFilteredEquityData = () => {
     if (timeframe === '1M') return equityData.slice(-13);
     if (timeframe === '3M') return equityData.slice(-18);
-    // Returning full dataset for everything else to simulate longer timeframes
     return equityData;
   };
 
@@ -56,10 +53,8 @@ export default function App() {
     e.preventDefault();
     const numAmount = parseFloat(amount);
     
-    // basic validation
     if (isNaN(numAmount) || numAmount <= 0) return;
 
-    // 1. Update Balance State
     if (modalType === 'Withdraw' && numAmount > balance) {
       alert("Insufficient funds for this withdrawal.");
       return;
@@ -67,7 +62,6 @@ export default function App() {
     
     setBalance(prev => modalType === 'Deposit' ? prev + numAmount : prev - numAmount);
 
-    // 2. Add new record to Recent Activity Table
     const dateStr = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
     
     const newTransaction = {
@@ -85,14 +79,11 @@ export default function App() {
     setIsModalOpen(false);
   };
 
-  // Simulate Live Price Updates
   useEffect(() => {
-    // Only run simulation if on the Overview tab
     if (activeTab !== 'Overview') return;
 
     const interval = setInterval(() => {
       setTradingData(currentData => currentData.map(trade => {
-        // Random fluctuation between -0.0010 and +0.0010
         const isJpy = trade.symbol.includes('JPY');
         const multiplier = isJpy ? 0.1 : 0.001; 
         const fluctuation = (Math.random() * (multiplier * 2)) - multiplier;
@@ -100,7 +91,6 @@ export default function App() {
         const oldPrice = parseFloat(trade.currentPrice);
         const newPrice = (oldPrice + fluctuation).toFixed(isJpy ? 2 : 4);
         
-        // Calculate theoretical P&L change
         const isUp = newPrice > oldPrice;
         const pnlChange = isUp ? (Math.random() * 5 + 1) : -(Math.random() * 5 + 1);
         
@@ -113,16 +103,15 @@ export default function App() {
           currentPrice: newPrice,
           pnl: formattedPnl,
           positive: newPnlValue >= 0,
-          flash: isUp ? 'up' : 'down' // Triggers the row color flash
+          flash: isUp ? 'up' : 'down' 
         };
       }));
 
-      // Clear the flash effect after 500ms
       setTimeout(() => {
         setTradingData(data => data.map(t => ({ ...t, flash: null })));
       }, 500);
 
-    }, 4000); // Ticks every 4 seconds
+    }, 4000); 
 
     return () => clearInterval(interval);
   }, [activeTab]);
@@ -136,11 +125,12 @@ export default function App() {
         onClose={() => setIsSidebarOpen(false)} 
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        onLogoClick={onSignOut}
       />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col w-full lg:ml-64 overflow-hidden h-screen">
-        <Header onMenuClick={() => setIsSidebarOpen(true)} />
+        <Header onMenuClick={() => setIsSidebarOpen(true)} onSignOut={onSignOut} />
 
         {/* Scrollable Dashboard Content */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
@@ -261,4 +251,14 @@ export default function App() {
       `}} />
     </div>
   );
+}
+
+export default function App() {
+  const [currentView, setCurrentView] = useState('landing');
+
+  if (currentView === 'landing') {
+    return <LandingPage onEnter={() => setCurrentView('dashboard')} />;
+  }
+
+  return <Dashboard onSignOut={() => setCurrentView('landing')} />;
 }

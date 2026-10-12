@@ -26,7 +26,7 @@ import {
   X
 } from 'lucide-react';
 
-const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab }) => (
+const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab, onLogoClick }) => (
   <>
     {/* Mobile Overlay */}
     {isOpen && (
@@ -38,22 +38,24 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab }) => (
 
     {/* Sidebar Content */}
     <div className={`fixed inset-y-0 left-0 w-64 bg-[#0B1221] border-r border-[#1E293B] h-screen flex flex-col z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-      <div className="p-6 flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-3 mb-1">
-            <div className="w-8 h-8 rounded bg-gradient-to-br from-[#F59E0B] to-[#D97706] flex items-center justify-center transform -skew-x-12">
-              <span className="text-white font-bold text-xl skew-x-12">A</span>
-            </div>
-            <div>
-              <h1 className="text-white font-semibold text-lg tracking-wide leading-tight">AURUM FX</h1>
-            </div>
+      <div className="p-6 flex items-center justify-between group">
+        <div 
+          className="cursor-pointer hover:opacity-80 transition-opacity flex items-center gap-3 w-full"
+          onClick={onLogoClick}
+          title="Return to Home"
+        >
+          <div className="w-8 h-8 rounded bg-gradient-to-br from-[#F59E0B] to-[#D97706] flex items-center justify-center transform -skew-x-12">
+            <span className="text-white font-bold text-xl skew-x-12">A</span>
           </div>
-          <p className="text-[#94A3B8] text-[10px] tracking-[0.2em] font-medium ml-11 uppercase">
-            Trade | Grow | Together
-          </p>
+          <div>
+            <h1 className="text-white font-semibold text-lg tracking-wide leading-tight group-hover:text-[#F59E0B] transition-colors">AURUM FX</h1>
+            <p className="text-[#94A3B8] text-[10px] tracking-[0.2em] font-medium uppercase">
+              Trade | Grow | Together
+            </p>
+          </div>
         </div>
         {/* Mobile Close Button */}
-        <button onClick={onClose} className="lg:hidden text-[#94A3B8] hover:text-white">
+        <button onClick={onClose} className="lg:hidden text-[#94A3B8] hover:text-white ml-2">
           <X size={20} />
         </button>
       </div>
@@ -108,5 +110,6 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab }) => (
     </div>
   </>
 );
+
 
 export default Sidebar;
