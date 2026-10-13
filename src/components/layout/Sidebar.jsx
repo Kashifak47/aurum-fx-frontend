@@ -37,7 +37,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab, onLogoClick }) => (
     )}
 
     {/* Sidebar Content */}
-    <div className={`fixed inset-y-0 left-0 w-64 bg-[#0B1221] border-r border-[#1E293B] h-screen flex flex-col z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+    <div className={`fixed inset-y-0 left-0 w-64 bg-[#0B1221] border-r border-[#1E293B] flex flex-col z-50 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <div className="p-6 flex items-center justify-between group">
         <div 
           className="cursor-pointer hover:opacity-80 transition-opacity flex items-center gap-3 w-full"
@@ -92,7 +92,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab, onLogoClick }) => (
         })}
       </nav>
 
-      <div className="p-4 mb-4 mx-3 rounded-xl bg-[#131A2F] border border-[#1E293B] mt-auto">
+      <div className="p-4 mb-8 lg:mb-4 mx-3 rounded-xl bg-[#131A2F] border border-[#1E293B] mt-auto shrink-0">
         <div className="flex items-start gap-3 mb-3">
           <Shield className="text-[#10B981] mt-0.5 shrink-0" size={18} />
           <p className="text-xs text-[#94A3B8] leading-relaxed">
