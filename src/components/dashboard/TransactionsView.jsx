@@ -21,7 +21,7 @@ const TransactionsView = ({ data }) => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Ledger & History</h2>
-          <p className="text-xs sm:text-sm text-[#94A3B8] mt-1">Full audit trail of deposits, withdrawals, and internal allocations.</p>
+          <p className="text-xs sm:text-sm text-[#94A3B8] mt-1">Full audit trail of deposits, withdrawals and internal allocations.</p>
         </div>
       </div>
 

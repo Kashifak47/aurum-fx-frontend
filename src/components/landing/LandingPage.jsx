@@ -70,7 +70,7 @@ const LandingPage = ({ onNavigate }) => {
     },
     {
       q: "Why do you only trade Major Currency Pairs?",
-      a: "Major pairs (EUR/USD, GBP/USD, USD/JPY, AUD/USD) represent over 75% of daily global FX volume. Focusing exclusively on these pairs guarantees ultra-tight spreads, near-zero slippage, and immunity from exotic illiquidity shocks."
+      a: "Major pairs (EUR/USD, GBP/USD, USD/JPY, AUD/USD) represent over 75% of daily global FX volume. Focusing exclusively on these pairs guarantees ultra-tight spreads, near-zero slippage and immunity from exotic illiquidity shocks."
     },
     {
       q: "How are management and performance fees structured?",
@@ -80,7 +80,7 @@ const LandingPage = ({ onNavigate }) => {
 
   const reviews = [
     { name: "Marcus Vance", role: "Managing Partner, Vance Family Office", tier: "Institutional Desk", metric: "+14.2% Net Yield", avatar: "MV", text: "Transitioning a portion of our FX treasury to Aurum FX Capital was seamless. Their strict 5% hard-stop drawdown governance and exclusive focus on G4 liquidity gave our investment committee the exact risk parameters we required." },
-    { name: "Elena Rostova", role: "Quantitative Portfolio Consultant", tier: "Prime Allocation", metric: "Zero Slippage", avatar: "ER", text: "Most managed accounts hide their execution ledger until the end of the month. With Aurum's client terminal, I can verify entry prices, lot sizes on EUR/USD, and real-time NAV fluctuations any hour of the day." },
+    { name: "Elena Rostova", role: "Quantitative Portfolio Consultant", tier: "Prime Allocation", metric: "Zero Slippage", avatar: "ER", text: "Most managed accounts hide their execution ledger until the end of the month. With Aurum's client terminal, I can verify entry prices, lot sizes on EUR/USD and real-time NAV fluctuations any hour of the day." },
     { name: "David Thorne", role: "Private Investor & Former Equities Trader", tier: "Prime Allocation", metric: "24h Wire Settlement", avatar: "DT", text: "What impressed me most wasn't just the steady ~1.1% monthly compounding—it was the liquidity flexibility. I requested a partial USD profit withdrawal on a Tuesday morning and the wire settled before market close." },
     { name: "Jonathan Sterling", role: "Director of Treasury, Apex Global", tier: "Institutional Desk", metric: "< 4.1% Max DD", avatar: "JS", text: "During recent central bank rate volatility, our equity curve remained remarkably stable. Aurum's automated circuit-breakers protected our principal while capturing clean macro swings on USD/JPY." },
     { name: "Sophia Chen", role: "Angel Investor & FinTech Founder", tier: "Prime Allocation", metric: "+13.6% APY", avatar: "SC", text: "I wanted diversified exposure to foreign exchange without staring at charts all day. The hands-off G4 allocation model and transparent High-Water Mark fee structure align their incentives 100% with mine." },
@@ -248,7 +248,7 @@ const LandingPage = ({ onNavigate }) => {
         </h1>
 
         <p className="text-sm sm:text-base lg:text-lg text-[#94A3B8] max-w-2xl mb-8 sm:mb-10 leading-relaxed">
-          Experience quantitative capital management with real-time NAV reporting, strict drawdown controls, and automated G4 currency allocation. Your capital, our institutional strategy.
+          Experience quantitative capital management with real-time NAV reporting, strict drawdown controls and automated G4 currency allocation. Your capital, our institutional strategy.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full sm:w-auto">
@@ -326,9 +326,9 @@ const LandingPage = ({ onNavigate }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {[
-            { icon: TrendingUp, title: "Major Currency Pairs Only", desc: "We strictly trade EUR/USD, GBP/USD, USD/JPY, and AUD/USD to guarantee deep institutional liquidity and zero exposure to volatile exotic pairs." },
+            { icon: TrendingUp, title: "Major Currency Pairs Only", desc: "We strictly trade EUR/USD, GBP/USD, USD/JPY and AUD/USD to guarantee deep institutional liquidity and zero exposure to volatile exotic pairs." },
             { icon: Shield, title: "Hard-Coded Risk Governance", desc: "Automated equity circuit-breakers cap maximum portfolio drawdown, ensuring capital preservation always takes precedence over speculative yield." },
-            { icon: Layers, title: "Real-Time NAV & P&L Tracking", desc: "Monitor every open position, lot size, entry price, and unrealized profit or loss directly inside your client portal 24/7." },
+            { icon: Layers, title: "Real-Time NAV & P&L Tracking", desc: "Monitor every open position, lot size, entry price and unrealized profit or loss directly inside your client portal 24/7." },
             { icon: Lock, title: "Segregated USD Custody", desc: "Client capital is denominated in USD and held in ring-fenced accounts, completely separate from corporate operational funds." },
             { icon: Zap, title: "Zero Lock-Up Liquidity", desc: "Unlike traditional hedge funds, your capital remains accessible. Submit deposit or withdrawal requests anytime with rapid settlement." },
             { icon: Activity, title: "Dynamic Exposure Balancing", desc: "Our desk actively adjusts currency weights based on central bank interest rate differentials and macroeconomic data releases." }
@@ -489,7 +489,7 @@ const LandingPage = ({ onNavigate }) => {
       <section id="faq" className="scroll-mt-20 relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 pb-16 sm:pb-24 w-full shrink-0">
         <div className="text-center mb-10 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Frequently Asked Questions</h2>
-          <p className="text-sm text-[#94A3B8]">Clear answers on custody, risk management, and liquidity.</p>
+          <p className="text-sm text-[#94A3B8]">Clear answers on custody, risk management and liquidity.</p>
         </div>
         <div className="space-y-3">
           {faqs.map((item, idx) => {
@@ -514,7 +514,7 @@ const LandingPage = ({ onNavigate }) => {
       <section className="relative z-10 text-center py-14 sm:py-20 px-4 sm:px-6 border-t border-[#1E293B] bg-gradient-to-b from-[#070B14] to-[#0B1221] shrink-0">
         <Award size={40} className="mx-auto text-[#F59E0B] mb-4" />
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">Ready to Inspect the Live Terminal?</h2>
-        <p className="text-sm sm:text-base text-[#94A3B8] max-w-xl mx-auto mb-8">Step inside the interactive client portal to test deposits, withdrawals, equity curves, and live G4 position tracking.</p>
+        <p className="text-sm sm:text-base text-[#94A3B8] max-w-xl mx-auto mb-8">Step inside the interactive client portal to test deposits, withdrawals, equity curves and live G4 position tracking.</p>
         <button onClick={handleLaunchDemo} className="w-full sm:w-auto bg-white text-[#070B14] hover:bg-gray-200 px-8 py-3.5 rounded-xl text-sm sm:text-base font-bold transition-all shadow-lg hover:-translate-y-0.5">
           Enter Interactive Dashboard
         </button>

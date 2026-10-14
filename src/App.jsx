@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {mockEquityData,mockAllocationData,mockRecentActivity,mockLiveTrading} from './data/mockData.js'
+import { mockEquityData, mockAllocationData, mockRecentActivity, mockLiveTrading } from './data/mockData.js'
 import Sidebar from './components/layout/Sidebar.jsx'
 import Header from './components/layout/Header.jsx'
 import WelcomeSection from './components/dashboard/WelcomeSection.jsx'
@@ -17,33 +17,38 @@ import Modal from './components/common/Modal.jsx'
 import Toast from './components/common/Toast.jsx'
 import LandingPage from './components/landing/LandingPage.jsx'
 import AuthPage from './components/auth/AuthPage.jsx'
+import SettingsView from './components/dashboard/SettingsView';
+import PerformanceView from './components/dashboard/PerformanceView';
+import TradingDetailsView from './components/dashboard/TradingDetailsView';
+import DocumentsView from './components/dashboard/DocumentsView';
+import FundingView from './components/dashboard/FundingView';
 
 import {
   Briefcase,
   ArrowDownRight,
   Wallet,
-  AlertTriangle 
+  AlertTriangle
 } from 'lucide-react';
 
 const Dashboard = ({ onSignOut }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('Overview');
   const [timeframe, setTimeframe] = useState('1M');
-  
+
   // Modal, Validation & Toast States
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState('Deposit'); 
+  const [modalType, setModalType] = useState('Deposit');
   const [amount, setAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('Bank Wire (SWIFT/ACH)');
   const [formError, setFormError] = useState('');
   const [toast, setToast] = useState(null);
-  
+
   const [equityData] = useState(mockEquityData);
   const [allocationData] = useState(mockAllocationData);
-  
+
   const [activityData, setActivityData] = useState(mockRecentActivity);
   const [balance, setBalance] = useState(24850.00);
-  
+
   const [tradingData, setTradingData] = useState(mockLiveTrading);
 
   const showToast = (type, title, message) => {
@@ -113,7 +118,7 @@ const Dashboard = ({ onSignOut }) => {
 
     const dateStr = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).replace(',', '');
     const formattedAmount = numAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    
+
     const newTransaction = {
       id: Date.now(),
       date: dateStr,
@@ -131,8 +136,7 @@ const Dashboard = ({ onSignOut }) => {
     showToast(
       'success',
       `${modalType} ${modalType === 'Deposit' ? 'Confirmed' : 'Submitted'}`,
-      `$${formattedAmount} USD via ${paymentMethod} has been ${
-        modalType === 'Deposit' ? 'credited to your portfolio.' : 'queued for settlement.'
+      `$${formattedAmount} USD via ${paymentMethod} has been ${modalType === 'Deposit' ? 'credited to your portfolio.' : 'queued for settlement.'
       }`
     );
   };
@@ -143,25 +147,25 @@ const Dashboard = ({ onSignOut }) => {
     const interval = setInterval(() => {
       setTradingData(currentData => currentData.map(trade => {
         const isJpy = trade.symbol.includes('JPY');
-        const multiplier = isJpy ? 0.1 : 0.001; 
+        const multiplier = isJpy ? 0.1 : 0.001;
         const fluctuation = (Math.random() * (multiplier * 2)) - multiplier;
-        
+
         const oldPrice = parseFloat(trade.currentPrice);
         const newPrice = (oldPrice + fluctuation).toFixed(isJpy ? 2 : 4);
-        
+
         const isUp = newPrice > oldPrice;
         const pnlChange = isUp ? (Math.random() * 5 + 1) : -(Math.random() * 5 + 1);
-        
+
         const currentPnlValue = parseFloat(trade.pnl.replace('+', '').replace(',', ''));
         const newPnlValue = currentPnlValue + pnlChange;
         const formattedPnl = (newPnlValue >= 0 ? '+' : '') + newPnlValue.toFixed(2);
-        
+
         return {
           ...trade,
           currentPrice: newPrice,
           pnl: formattedPnl,
           positive: newPnlValue >= 0,
-          flash: isUp ? 'up' : 'down' 
+          flash: isUp ? 'up' : 'down'
         };
       }));
 
@@ -169,18 +173,18 @@ const Dashboard = ({ onSignOut }) => {
         setTradingData(data => data.map(t => ({ ...t, flash: null })));
       }, 500);
 
-    }, 4000); 
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [activeTab]);
 
   return (
     <div className="flex h-screen bg-[#070B14] font-sans selection:bg-[#00B5E2]/30 overflow-hidden relative">
-      
+
       {/* Responsive Sidebar */}
-      <Sidebar 
-        isOpen={isSidebarOpen} 
-        onClose={() => setIsSidebarOpen(false)} 
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onLogoClick={onSignOut}
@@ -193,7 +197,7 @@ const Dashboard = ({ onSignOut }) => {
         {/* Scrollable Dashboard Content */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
           <div className="max-w-7xl mx-auto space-y-5 sm:space-y-6">
-            
+
             {activeTab === 'Overview' && (
               <>
                 <WelcomeSection onDepositClick={() => handleOpenModal('Deposit')} onWithdrawClick={() => handleOpenModal('Withdraw')} />
@@ -222,21 +226,15 @@ const Dashboard = ({ onSignOut }) => {
               <TransactionsView data={activityData} />
             )}
 
-            {['Performance', 'Deposit / Withdraw', 'Trading Details', 'Documents', 'Settings'].includes(activeTab) && (
-              <div className="flex flex-col items-center justify-center h-[60vh] text-center px-4 animate-in fade-in duration-500">
-                <div className="w-16 h-16 bg-[#131A2F] rounded-full flex items-center justify-center mb-4 border border-[#1E293B]">
-                  <Briefcase size={24} className="text-[#00B5E2]" />
-                </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{activeTab} Dashboard</h2>
-                <p className="text-sm text-[#94A3B8] max-w-md leading-relaxed">
-                  This section is currently under development. Once the Spring Boot API is connected, you will be able to manage your {activeTab.toLowerCase()} data here.
-                </p>
-                <button onClick={() => setActiveTab('Overview')} className="mt-6 text-sm text-[#00B5E2] hover:text-white transition-colors">
-                  &larr; Return to Overview
-                </button>
-              </div>
-            )}
-            
+            {activeTab === 'Settings' && <SettingsView />}
+
+            {activeTab === 'Performance' && <PerformanceView equityData={equityData} />}
+
+            {activeTab === 'Trading Details' && <TradingDetailsView />}
+            {activeTab === 'Documents' && <DocumentsView />}
+            {activeTab === 'Deposit / Withdraw' && <FundingView balance={balance} onDeposit={() => handleOpenModal('Deposit')} onWithdraw={() => handleOpenModal('Withdraw')} />}
+
+
           </div>
         </main>
       </div>
@@ -267,11 +265,10 @@ const Dashboard = ({ onSignOut }) => {
                   type="button"
                   key={method}
                   onClick={() => setPaymentMethod(method)}
-                  className={`py-2 px-3 rounded-lg text-xs font-medium border text-center transition-all ${
-                    paymentMethod === method
+                  className={`py-2 px-3 rounded-lg text-xs font-medium border text-center transition-all ${paymentMethod === method
                       ? 'bg-[#00B5E2]/15 border-[#00B5E2] text-white'
                       : 'bg-[#131A2F] border-[#1E293B] text-[#94A3B8] hover:text-white'
-                  }`}
+                    }`}
                 >
                   {method}
                 </button>
@@ -295,11 +292,10 @@ const Dashboard = ({ onSignOut }) => {
                 step="0.01"
                 value={amount}
                 onChange={(e) => handleAmountChange(e.target.value)}
-                className={`w-full bg-[#131A2F] border text-white rounded-lg pl-8 pr-16 py-2.5 text-sm focus:outline-none focus:ring-1 transition-colors placeholder:text-[#334155] ${
-                  formError
+                className={`w-full bg-[#131A2F] border text-white rounded-lg pl-8 pr-16 py-2.5 text-sm focus:outline-none focus:ring-1 transition-colors placeholder:text-[#334155] ${formError
                     ? 'border-[#EF4444] focus:border-[#EF4444] focus:ring-[#EF4444]'
                     : 'border-[#1E293B] focus:border-[#00B5E2] focus:ring-[#00B5E2]'
-                }`}
+                  }`}
                 placeholder="0.00"
               />
               {modalType === 'Withdraw' && (
@@ -340,11 +336,10 @@ const Dashboard = ({ onSignOut }) => {
             <button
               type="submit"
               disabled={!amount || Boolean(formError)}
-              className={`w-full py-2.5 rounded-lg text-white text-sm font-semibold transition-all shadow-lg disabled:opacity-40 disabled:cursor-not-allowed ${
-                modalType === 'Deposit'
+              className={`w-full py-2.5 rounded-lg text-white text-sm font-semibold transition-all shadow-lg disabled:opacity-40 disabled:cursor-not-allowed ${modalType === 'Deposit'
                   ? 'bg-[#10B981] hover:bg-[#059669] shadow-[#10B981]/20'
                   : 'bg-[#00B5E2] hover:bg-[#0096cc] shadow-[#00B5E2]/20'
-              }`}
+                }`}
             >
               Confirm {modalType}
             </button>
@@ -358,7 +353,8 @@ const Dashboard = ({ onSignOut }) => {
       {/* Custom Toast Notification */}
       <Toast toast={toast} onClose={() => setToast(null)} />
 
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
           height: 6px;
